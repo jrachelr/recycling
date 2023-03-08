@@ -1,5 +1,7 @@
 from app import app
-from flask import redirect, render_template
+from flask import render_template, url_for
+
+# Some fake data
 
 
 @app.route("/")
@@ -10,7 +12,7 @@ def home():
 
 @app.route("/about")
 def about():
-    return 'Aboyut'
+    return render_template('about.html', title='About')
 
 # TODO: User specific routes
 
