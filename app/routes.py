@@ -2,6 +2,16 @@ from app import app
 from flask import render_template, url_for
 
 # Some fake data
+locations = [
+    {
+        'name': 'goodwill',
+        'address': '111 Pin Dr Ste A, IL, 00000'
+    },
+    {
+        'name': 'church',
+        'address': '222 My St Unit 9, CA, 111111'
+    }
+]
 
 
 @app.route("/")
@@ -37,9 +47,8 @@ def account():
     return 'account'
 
 # TODO: Location specific routes
-    return 'About'
 
 
-@app.route("/locations")
-def locations():
-    return 'locations'
+@app.route("/locations/all")
+def all_locations():
+    return render_template('locations.html', title='All Locations', locs=locations)
