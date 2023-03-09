@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>All locations</h1>
+    {% for l in locs %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ l.name }}</h5>
+            <p class="card-text">{{ l.address }}</p>
+            <a href="#" class="btn btn-primary">View on map</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
