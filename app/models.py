@@ -1,6 +1,5 @@
 from app import db
 
-# TODO: complete Location model
 
 saved_locations = db.Table('saved_locations',
                            db.Column('user_id', db.Integer,
@@ -15,7 +14,7 @@ class Location(db.Model):
     name = db.Column(db.String(20), nullable=False)
     street_address = db.Column(db.String(40), nullable=False)
     city = db.Column(db.String(20), nullable=False)
-    
+
     # TODO: proper data type/ method of storage for all different values
     state = db.Column(db.String(20), nullable=False)
 
