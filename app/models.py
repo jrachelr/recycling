@@ -18,15 +18,13 @@ class Location(db.Model):
     # TODO: proper data type/ method of storage for all different values
     state = db.Column(db.String(20), nullable=False)
 
-    # accepted_items = db.relationship('AcceptedItem', backref='')
-
     def __repr__(self) -> str:
         return f'Location({self.name}, {self.street_address}, {self.city}, {self.state})'
 
 
-# class AcceptedItem(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-    # location_list =
+class AcceptedItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_type = db.Column(db.String(20), nullable=False)
 
 
 class User(db.Model):

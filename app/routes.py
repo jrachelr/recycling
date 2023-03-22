@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template, url_for
+from app.models import Location, User, AcceptedItem
 
 # Some fake data
 locations = [
