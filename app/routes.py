@@ -1,18 +1,6 @@
 from app import app
 from flask import render_template, url_for
-from app.models import Location, User, AcceptedItem
-
-# Some fake data
-locations = [
-    {
-        'name': 'goodwill',
-        'address': '111 Pin Dr Ste A, IL, 00000'
-    },
-    {
-        'name': 'church',
-        'address': '222 My St Unit 9, CA, 111111'
-    }
-]
+from app.models import Location, User, Item
 
 
 @app.route("/")
