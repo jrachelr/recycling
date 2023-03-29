@@ -6,38 +6,40 @@ from app.models import Location, User, Item
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', title='Home')
+    return render_template("home.html", title="Home")
 
 
 @app.route("/about")
 def about():
-    return render_template('about.html', title='About')
+    return render_template("about.html", title="About")
+
 
 # TODO: User specific routes
 
 
 @app.route("/register")
 def register():
-    return 'register'
+    return "register"
 
 
 @app.route("/login")
 def login():
-    return 'Login'
+    return "Login"
 
 
 @app.route("/logout")
 def logout():
-    return 'Logout'
+    return "Logout"
 
 
 @app.route("/account")
 def account():
-    return 'account'
+    return "account"
+
 
 # TODO: Location specific routes
 
 
 @app.route("/locations/all")
 def all_locations():
-    return render_template('locations.html', title='All Locations', locs=locations)
+    return
