@@ -5,7 +5,7 @@ to add:
 
 - get all locations
 - get location by id
-- get location by item ID
+- get locations by item ID
 - create location - POST
 - update location - PUT
 - delete location
