@@ -9,3 +9,5 @@ to add:
 - create location - POST
 - update location - PUT
 - delete location
+
+rename Item model to textile or something more specific

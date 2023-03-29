@@ -1,4 +1,4 @@
-from flask import jsonify, request, url_for, abort
+from flask import jsonify, request, url_for
 from app import db
 from app.models import Location
 from app.api import bp
