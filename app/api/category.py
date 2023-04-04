@@ -23,4 +23,11 @@ def create_category():
 def get_locations_by_category(id):
     category = Category.query.get_or_404(id)
     locations = category.accepted_locations
-    # return jsonify(location)
+
+    location_list = []
+
+    for loc in locations:
+        location_list.append(loc.to_dict())
+
+    location_dict = {"items": location_list}
+    return jsonify(location_dict)
