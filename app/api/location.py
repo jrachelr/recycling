@@ -1,4 +1,4 @@
-from flask import jsonify, request, url_for, abort
+from flask import jsonify, request, url_for
 from app import db
 from app.models import Location
 from app.api import bp
@@ -19,5 +19,16 @@ def create_location():
     db.session.commit()
     response = jsonify(location.to_dict())
     response.status_code = 201
-    # response.headers["Location"] = url_for("api.get_location", id=location.id)
+    response.headers["Location"] = url_for(
+        "api.get_location_by_id", location_id=location.id
+    )
     return response
+
+
+@bp.route("/location/<int:location_id>", methods=["PUT", "GET", "DELETE"])
+def get_location_by_id(location_id):
+    return jsonify(Location.query.get_or_404(location_id).to_dict())
+
+
+# TODO:
+# - get location by item ID
