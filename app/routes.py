@@ -35,11 +35,3 @@ def logout():
 @app.route("/account")
 def account():
     return "account"
-
-
-# TODO: Location specific routes
-
-
-@app.route("/locations/all")
-def all_locations():
-    return

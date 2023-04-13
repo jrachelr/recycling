@@ -1,4 +1,5 @@
 from flask import jsonify, request, url_for
+from flask_marshmallow import Marshmallow
 from app import db
 from app.models import Location
 from app.api import bp
@@ -25,10 +26,13 @@ def create_location():
     return response
 
 
-@bp.route("/location/<int:location_id>", methods=["PUT", "GET", "DELETE"])
-def get_location_by_id(location_id):
-    return jsonify(Location.query.get_or_404(location_id).to_dict())
+@bp.route("/location/<int:id>", methods=["PUT", "GET", "DELETE"])
+def get_location_by_id(id):
+    return jsonify(Location.query.get_or_404(id).to_dict())
 
 
-# TODO:
-# - get location by item ID
+@bp.route("/location/<int:id>/location_accepted_categories", methods=["PUT", "GET"])
+def get_categories_by_location(id):
+    cats = Location.query.get_or_404(id).location_accepted_categories
+    print(cats)
+    return jsonify()
