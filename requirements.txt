@@ -27,6 +27,7 @@ exceptiongroup==1.0.4
 executing==1.2.0
 fastjsonschema==2.16.2
 Flask==2.2.3
+flask-marshmallow==0.15.0
 Flask-Migrate==4.0.4
 Flask-SQLAlchemy==3.0.3
 Flask-WTF==1.1.1
@@ -63,6 +64,8 @@ libclang==14.0.6
 Mako==1.2.4
 Markdown==3.4.1
 MarkupSafe==2.1.1
+marshmallow==3.19.0
+marshmallow-sqlalchemy==0.29.0
 matplotlib==3.6.2
 matplotlib-inline==0.1.6
 mistune==2.0.4
