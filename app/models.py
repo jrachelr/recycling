@@ -1,5 +1,5 @@
 from app import db
-from flask import url_for
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 
 saved_locations = db.Table(
@@ -28,40 +28,6 @@ class Location(db.Model):
             f"Location({self.name}, {self.street_address}, {self.city}, {self.state})"
         )
 
-    def to_dict(self):
-        data = {
-            "id": self.id,
-            "name": self.name,
-            "street_address": self.street_address,
-            "city": self.city,
-            "state": self.state,
-        }
-        return data
-
-    def from_dict(self, data):
-        for field in ["name", "street_address", "city", "state"]:
-            if field in data:
-                setattr(self, field, data[field])
-
-    @staticmethod
-    def to_collection_dict(query, endpoint, **kwargs):
-        resources = query.paginate(error_out=False)
-        data = {
-            "items": [item.to_dict() for item in resources.items],
-            "_meta": {
-                # "page": page,
-                # "per_page": per_page,
-                "total_pages": resources.pages,
-                "total_items": resources.total,
-            },
-            "_links": {
-                "self": url_for(endpoint, **kwargs),
-                "next": url_for(endpoint, **kwargs) if resources.has_next else None,
-                "prev": url_for(endpoint, **kwargs) if resources.has_prev else None,
-            },
-        }
-        return data
-
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,32 +44,6 @@ class Category(db.Model):
     def __repr__(self) -> str:
         return f"Category({self.name})"
 
-    def to_dict(self):
-        data = {"id": self.id, "name": self.name}
-        return data
-
-    def from_dict(self, data):
-        for field in ["name"]:
-            if field in data:
-                setattr(self, field, data[field])
-
-    @staticmethod
-    def to_collection_dict(query, endpoint, **kwargs):
-        resources = query.paginate(error_out=False)
-        data = {
-            "items": [item.to_dict() for item in resources.items],
-            "_meta": {
-                "total_pages": resources.pages,
-                "total_items": resources.total,
-            },
-            "_links": {
-                "self": url_for(endpoint, **kwargs),
-                "next": url_for(endpoint, **kwargs) if resources.has_next else None,
-                "prev": url_for(endpoint, **kwargs) if resources.has_prev else None,
-            },
-        }
-        return data
-
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -114,3 +54,13 @@ class User(db.Model):
     saved_locations = db.relationship(
         "Location", secondary=saved_locations, backref="follower"
     )
+
+
+class LocationSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Location
+
+
+class CategorySchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Category
