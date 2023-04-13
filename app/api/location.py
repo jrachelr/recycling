@@ -2,6 +2,7 @@ from flask import jsonify, request, url_for
 from app import db
 from app.models import Location, LocationSchema
 from app.api import bp
+# from marshmallow import ValidationError
 
 
 @bp.route("/location/<int:id>", methods=["PUT", "GET", "DELETE"])
@@ -20,22 +21,33 @@ def get_locations():
     return jsonify({'Locations': output})
 
 
-@bp.route("/locations", methods=["POST"])
+@bp.route("/new_location", methods=["POST"])
 def create_location():
-    data = request.get_json() or {}
-    location = Location()
-    location.from_dict(data)
+    # TODO: add link to self in response
+    # TODO: add data validation
+    json_data = request.get_json()
+    location_schema = LocationSchema()
+
+    if not json_data:
+        return {'message': 'No input data provided'}, 400
+    data = location_schema.load(json_data)
+
+    """ Validate data and deserialize input
+    try:
+        data = location_schema.load(json_data)
+    except ValidationError as err:
+        return err.messages, 422
+    """
+    location = Location(
+        name=data['name'], street_address=data['street_address'], city=data['city'], state=data['state'])
     db.session.add(location)
     db.session.commit()
-    response = jsonify(location.to_dict())
-    response.status_code = 201
-    response.headers["Location"] = url_for(
-        "api.get_location_by_id", location_id=location.id
-    )
-    return response
+
+    result = location_schema.dump(Location.query.get(location.id))
+    return {'message': 'Created new location', 'location': result}
 
 
-@bp.route("/location/<int:id>/location_accepted_categories", methods=["PUT", "GET"])
+@bp.route("/location/<int:id>/categories", methods=["PUT", "GET"])
 def get_categories_by_location(id):
     cats = Location.query.get_or_404(id).location_accepted_categories
     return jsonify()
