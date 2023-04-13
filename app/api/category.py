@@ -1,7 +1,23 @@
-from flask import jsonify, request, url_for
+from flask import jsonify, request
 from app import db
-from app.models import Category
+from app.models import Category, CategorySchema
 from app.api import bp
+
+
+@bp.route("/category/<int:id>", methods=["PUT", "GET", "DELETE"])
+def get_category_by_id(id):
+    category = Category.query.get_or_404(id)
+    category_schema = CategorySchema()
+    output = category_schema.dump(category)
+    return jsonify({'Category': output})
+
+
+@bp.route("/categories", methods=["GET"])
+def get_categories():
+    categories = Category.query.all()
+    categories_schema = CategorySchema(many=True)
+    output = categories_schema.dump(categories)
+    return jsonify({'Categories': output})
 
 
 @bp.route("/categories", methods=["POST"])
