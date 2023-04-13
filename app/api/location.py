@@ -1,6 +1,6 @@
-from flask import jsonify, request, url_for
+from flask import jsonify, request
 from app import db
-from app.models import Location, LocationSchema
+from app.models import Location, LocationSchema, CategorySchema
 from app.api import bp
 # from marshmallow import ValidationError
 
@@ -23,7 +23,6 @@ def get_locations():
 
 @bp.route("/new_location", methods=["POST"])
 def create_location():
-    # TODO: add link to self in response
     # TODO: add data validation
     json_data = request.get_json()
     location_schema = LocationSchema()
@@ -49,5 +48,13 @@ def create_location():
 
 @bp.route("/location/<int:id>/categories", methods=["PUT", "GET"])
 def get_categories_by_location(id):
-    cats = Location.query.get_or_404(id).location_accepted_categories
-    return jsonify()
+    location = Location.query.get_or_404(id)
+    categories = location.location_accepted_categories
+    category_schema = CategorySchema(many=True)
+    output = category_schema.dump(categories)
+
+    return jsonify(
+        {
+            'Location': location.name,
+            'Accepted categories': output
+        })

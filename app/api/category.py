@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from app import db
-from app.models import Category, CategorySchema
+from app.models import Category, CategorySchema, LocationSchema
 from app.api import bp
 
 
@@ -22,7 +22,6 @@ def get_categories():
 
 @bp.route("/new_category", methods=["POST"])
 def create_category():
-    # TODO: add link to self in response
     # TODO: add data validation
     json_data = request.get_json()
     category_schema = CategorySchema()
@@ -45,15 +44,15 @@ def create_category():
     return {'message': 'Created new category', 'category': result}
 
 
-@bp.route("/categories/<int:id>/locations")
+@bp.route("/category/<int:id>/locations", methods=["PUT", "GET"])
 def get_locations_by_category(id):
     category = Category.query.get_or_404(id)
     locations = category.accepted_locations
+    location_schema = LocationSchema(many=True)
+    output = location_schema.dump(locations)
 
-    location_list = []
-
-    for loc in locations:
-        location_list.append(loc.to_dict())
-
-    location_dict = {"items": location_list}
-    return jsonify(location_dict)
+    return jsonify(
+        {
+            'Category': category.name,
+            'Accepted Locations': output
+        })

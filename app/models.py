@@ -1,4 +1,4 @@
-from app import db
+from app import db, ma
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 
@@ -60,7 +60,23 @@ class LocationSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Location
 
+     # Smart hyperlinking
+    _links = ma.Hyperlinks(
+        {
+            "self": ma.URLFor("api.get_location_by_id", values=dict(id="<id>")),
+            "collection": ma.URLFor("api.get_locations"),
+        }
+    )
+
 
 class CategorySchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Category
+
+    # Smart hyperlinking
+    _links = ma.Hyperlinks(
+        {
+            "self": ma.URLFor("api.get_category_by_id", values=dict(id="<id>")),
+            "collection": ma.URLFor("api.get_categories"),
+        }
+    )
